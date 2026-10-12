@@ -8,7 +8,7 @@ const GLASS := preload("res://shaders/glass.gdshader")
 const MC := preload("res://scripts/material_colors.gd")
 
 ## Meshes whose node name starts with one of these get a trimesh StaticBody3D (world layer).
-const COLLIDERS: Array[String] = ["Walls", "Floor", "Glass_Wall", "Railing", "Lift1_Leaf", "Online_Furn"]
+const COLLIDERS: Array[String] = ["Walls", "Floor", "Glass_Wall", "Railing", "Lift1_Leaf", "Online_Furn", "Ceil_"]
 
 var _toon_cache: Dictionary = {}
 var _outline_mat: ShaderMaterial
