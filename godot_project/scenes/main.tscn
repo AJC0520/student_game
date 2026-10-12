@@ -1,10 +1,13 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="PackedScene" path="res://assets/a4_blockout.glb" id="1_level"]
 [ext_resource type="Script" path="res://scripts/level.gd" id="2_levelgd"]
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="3_player"]
 [ext_resource type="Script" path="res://scripts/lighting.gd" id="4_lighting"]
 [ext_resource type="Script" path="res://scripts/elevator.gd" id="5_elevator"]
+[ext_resource type="Script" path="res://scripts/tv_screen.gd" id="6_tv"]
+[ext_resource type="PackedScene" path="res://assets/npc_sofa.glb" id="7_npc"]
+[ext_resource type="Script" path="res://scripts/sofa_guy.gd" id="8_static"]
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 1
@@ -37,3 +40,9 @@ script = ExtResource("4_lighting")
 
 [node name="Elevator" type="Node3D" parent="."]
 script = ExtResource("5_elevator")
+
+[node name="TVScreen" type="Node3D" parent="."]
+script = ExtResource("6_tv")
+
+[node name="SofaGuy" parent="." instance=ExtResource("7_npc")]
+script = ExtResource("8_static")
