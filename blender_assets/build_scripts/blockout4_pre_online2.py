@@ -120,12 +120,32 @@ for (yc_list) in ((-4.5, -3.95, -3.4), (-0.95,)):                   # wired-glas
             for i in range(3):
                 for j in range(3):
                     g.box((0.02, 0.04, 0.04), (WXP + 0.025, yc + 0.06 * (i - 1), zc + 0.06 * (j - 1)), DOT)
-for yh in (-2.74, -1.36):                                            # both door leaves swung open into A4-001
-    g.box((0.65, 0.05, 0.07), (-0.575, yh, 2.06), DFR)
-    g.box((0.65, 0.05, 0.07), (-0.575, yh, 0.10), DFR)
-    for xs in (-0.865, -0.285):
-        g.box((0.07, 0.05, 2.0), (xs, yh, 1.08), DFR)
-    g.box((0.50, 0.02, 1.88), (-0.575, yh, 1.08), GLASS)
+# single door (1.0 m) in the gap y -2.45..-1.45 with a fixed side light next to it (y -2.7..-2.5); the door leaf is its own object
+g.box((0.10, 0.10, 3.0), (WXP, -2.5, 1.5), DFR)                     # extra post between side light and door
+g.box((0.03, 0.2, 2.0), (WXP, -2.6, 1.1), GLASS)                    # side light
+g.box((0.12, 0.2, 0.10), (WXP, -2.6, 0.05), DFR)
+dl = B()
+# origin = hinge (x = -0.9, y = -2.45, z = 0) so Godot can swing it about its own Y axis; leaf runs along +y
+dl.box((0.06, 0.98, 0.10), (0, 0.5, 2.0), DFR)                      # top rail
+dl.box((0.06, 0.98, 0.14), (0, 0.5, 0.10), DFR)                     # bottom rail
+for yy in (0.05, 0.95):
+    dl.box((0.06, 0.08, 2.05), (0, yy, 1.025), DFR)                 # stiles
+dl.box((0.02, 0.84, 1.78), (0, 0.5, 1.07), GLASS)                   # glass pane
+for xs in (-0.06, 0.06):                                            # pull handles on both faces, handle side = +y
+    dl.box((0.03, 0.04, 0.5), (xs, 0.86, 1.0), ("DoorHandle", (0.80, 0.82, 0.88)))
+dl.finish("Door_A4Entrance", (WXP, -2.45, 0), outline=0.01)
+# card readers: lobby side (yellow back plate so it stands out) and corridor side (for whoever has a card)
+rd = B()
+RDY = -1.12
+rd.box((0.02, 0.26, 0.46), (-0.875, RDY, 1.2), ("LiftBtn", (1.0, 0.8, 0.25)))     # yellow back plate
+rd.box((0.06, 0.18, 0.34), (-0.835, RDY, 1.2), ("CabBlack", (0.10, 0.10, 0.12)))  # reader body
+rd.box((0.01, 0.12, 0.06), (-0.803, RDY, 1.30), ("Screen", (0.45, 0.85, 0.9)))    # screen strip
+rd.box((0.01, 0.10, 0.012), (-0.803, RDY, 1.18), ("DarkFrame", (0.17, 0.17, 0.21)))  # card slot
+rd.box((0.01, 0.07, 0.045), (-0.803, RDY, 1.08), ("SignWhite", (0.95, 0.95, 0.95)))  # card icon
+rd.box((0.02, 0.2, 0.36), (-0.925, RDY, 1.2), ("CabBlack", (0.10, 0.10, 0.12)))   # corridor-side reader
+rd.box((0.01, 0.12, 0.06), (-0.945, RDY, 1.30), ("Screen", (0.45, 0.85, 0.9)))
+rd.box((0.01, 0.10, 0.012), (-0.945, RDY, 1.18), ("DarkFrame", (0.17, 0.17, 0.21)))
+rd.finish("Card_Readers", (0, 0, 0), outline=0.008)
 # east window of A4-001 (x = 6.5, y -4.5..-0.5)
 EXX, EY0, EY1 = 6.5, -4.5, -0.5
 g.box((0.03, EY1 - EY0, 2.9), (EXX, (EY0 + EY1) / 2, 1.5), GLASS)
