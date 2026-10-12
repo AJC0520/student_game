@@ -1,0 +1,16 @@
+Copyright (c) 2026 Asgeir Jacobsen. All rights reserved.
+
+This repository and its contents, including source code, scripts, scenes, 3D models,
+materials and other assets, are proprietary. No part of it may be used, copied, modified,
+merged, published, distributed, sublicensed or sold without prior written permission from
+the copyright holder.
+
+Third-party material
+--------------------
+The files under godot_project/.claude/skills/ are third-party skill packs that are
+distributed under their own MIT licenses. Their license texts are kept alongside them
+(LICENSE-godot-claude-skills and LICENSE-blender-skills) and are not affected by the
+notice above.
+
+Godot Engine and Blender are separate products with their own licenses and are not
+included in this repository.
