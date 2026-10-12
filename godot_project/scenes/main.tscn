@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="PackedScene" path="res://assets/a4_blockout.glb" id="1_level"]
 [ext_resource type="Script" path="res://scripts/level.gd" id="2_levelgd"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/tv_screen.gd" id="6_tv"]
 [ext_resource type="PackedScene" path="res://assets/npc_sofa.glb" id="7_npc"]
 [ext_resource type="Script" path="res://scripts/sofa_guy.gd" id="8_static"]
+[ext_resource type="Script" path="res://scripts/door_minigame.gd" id="9_door"]
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 1
@@ -32,17 +33,21 @@ shadow_enabled = true
 directional_shadow_max_distance = 60.0
 
 [node name="Player" parent="." instance=ExtResource("3_player")]
-position = Vector3(-20.5, 0.05, -1.6)
-rotation = Vector3(0, -1.5708, 0)
+position = Vector3(0.75, 0.05, -1.8)
+rotation = Vector3(0, 3.14159, 0)
 
 [node name="Lighting" type="Node3D" parent="."]
 script = ExtResource("4_lighting")
 
 [node name="Elevator" type="Node3D" parent="."]
 script = ExtResource("5_elevator")
+play_intro = true
 
 [node name="TVScreen" type="Node3D" parent="."]
 script = ExtResource("6_tv")
 
 [node name="SofaGuy" parent="." instance=ExtResource("7_npc")]
 script = ExtResource("8_static")
+
+[node name="AccessDoor" type="Node3D" parent="."]
+script = ExtResource("9_door")
