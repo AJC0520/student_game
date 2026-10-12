@@ -40,7 +40,7 @@ const COLORS := {
 	"Toon_Eye": Color(0.1, 0.1, 0.14),
 	"Toon_FloorHall": Color(0.8, 0.82, 0.9),
 	"Toon_FloorLino": Color(0.68, 0.68, 0.7),
-	"Toon_FloorPolished": Color(0.36, 0.38, 0.43),
+	"Toon_FloorPolished": Color(0.56, 0.58, 0.63),
 	"Toon_Fridge": Color(0.93, 0.94, 0.96),
 	"Toon_Frost": Color(0.93, 0.95, 0.97),
 	"Toon_Glass": Color(0.65, 0.85, 0.95),

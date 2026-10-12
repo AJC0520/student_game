@@ -69,9 +69,9 @@ walls.finish("Walls", (0, 0, 0), outline=0.03)
 rects = [(-29, 0, -9.7, N), (-3.7, 0, -0.9, N), (-23.5, -2.5, -0.9, 0), (-0.9, -5, 6.5, 3.5), (-3, -5, -0.9, -2.5)]
 fl = B()
 for x0, y0, x1, y1 in rects:
-    fl.box((x1 - x0, y1 - y0, 0.1), ((x0 + x1) / 2, (y0 + y1) / 2, -0.05), ("FloorHall", (0.80, 0.82, 0.90)))
+    fl.box((x1 - x0, y1 - y0, 0.1), ((x0 + x1) / 2, (y0 + y1) / 2, -0.05), ("FloorPolished", (0.56, 0.58, 0.63)))
 south = [(-31, 0), (-23.5, 0), (-23.5, -5), (-0.9, -5), (-0.9, -9.5), (4, -9.5), (4, SY), (ARC_CX, SY)] + ARC
-fi = fl.mi(("FloorHall", (0.80, 0.82, 0.90)))
+fi = fl.mi(("FloorPolished", (0.56, 0.58, 0.63)))
 vs = [fl.bm.verts.new((x, y, -0.1)) for x, y in south]
 ff = fl.bm.faces.new(vs)
 ext = bmesh.ops.extrude_face_region(fl.bm, geom=[ff])
@@ -319,7 +319,7 @@ text_on(a1p, "A", (2.6, -0.245, 1.85), (90, 0, 0), 0.28, ("SignWhite", (0.95, 0.
 
 # polished dark floor tint for A4-001 (visual only)
 ft = B()
-ft.box((7.4, 5.0, 0.01), (2.8, -2.5, 0.005), ("FloorPolished", (0.36, 0.38, 0.43)))
+ft.box((7.4, 5.0, 0.01), (2.8, -2.5, 0.005), ("FloorPolished", (0.56, 0.58, 0.63)))
 ft.finish("A4-001_FloorTint", (0, 0, 0), outline=0.0)
 
 # ribbed metal ceiling with spot lights (separate object so it can be hidden)

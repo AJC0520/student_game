@@ -99,7 +99,7 @@ onf = of.finish("Online_Furn", (0, 0, 0), outline=0.012)
 
 # grey linoleum floor tint + ceiling (ducts, concrete beam, pendant lights); ceiling is its own object
 ot = B()
-ot.box((13.3, 4.5, 0.01), (-16.35, 2.25, 0.005), ("FloorLino", (0.68, 0.68, 0.70)))
+ot.box((13.3, 4.5, 0.01), (-16.35, 2.25, 0.005), ("FloorPolished", (0.56, 0.58, 0.63)))
 ot.finish("Online_FloorTint", (0, 0, 0), outline=0.0)
 oc = B()
 DUCT = ("Duct", (0.70, 0.74, 0.78))
