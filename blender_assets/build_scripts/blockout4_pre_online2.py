@@ -189,8 +189,9 @@ for room, dxc in (("A4-145", -8.0), ("A4-147", -5.2)):
 # ---- room labels ----
 labels = {"A4-138": (-26, 2.2), "Online": (-16, 1.2), "A4-024": (-13, -1.25), "A4-025": (-27, -3), "A4-124": (-25.5, -10), "A4-156": (-9, -10),
           "A4-001": (3, -1.5)}
-for n, (x, y) in labels.items():
-    text_on(floor_ob, n, (x, y, 0.02), (0, 0, 0), 0.8, ("LabelInk", (0.15, 0.17, 0.30)), extrude=0.005, name="Label_" + n)
+# floor labels disabled (removed from the level on request); re-enable by uncommenting:
+# for n, (x, y) in labels.items():
+#     text_on(floor_ob, n, (x, y, 0.02), (0, 0, 0), 0.8, ("LabelInk", (0.15, 0.17, 0.30)), extrude=0.005, name="Label_" + n)
 
 # ---- lift 1: the lobby room IS the cab (interior cladding), lift 2: sealed cab (doors only) ----
 LWOOD = ("LiftWood", (0.90, 0.60, 0.32))
