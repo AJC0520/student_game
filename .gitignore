@@ -1,0 +1,12 @@
+# Blender backups and temp files
+*.blend1
+*.blend2
+*.blend@
+__pycache__/
+*.pyc
+
+# OS / editor junk
+Thumbs.db
+.DS_Store
+desktop.ini
+*.tmp

@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/a4_blockout.glb" id="1_level"]
+[ext_resource type="Script" path="res://scripts/level.gd" id="2_levelgd"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="3_player"]
+[ext_resource type="Script" path="res://scripts/lighting.gd" id="4_lighting"]
+[ext_resource type="Script" path="res://scripts/elevator.gd" id="5_elevator"]
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 1
+background_color = Color(0.93, 0.95, 1, 1)
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.62
+tonemap_mode = 0
+
+[node name="Main" type="Node3D"]
+
+[node name="Level" parent="." instance=ExtResource("1_level")]
+script = ExtResource("2_levelgd")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_main")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-0.8727, -0.5236, 0)
+position = Vector3(0, 10, 0)
+shadow_enabled = true
+directional_shadow_max_distance = 60.0
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector3(-20.5, 0.05, -1.6)
+rotation = Vector3(0, -1.5708, 0)
+
+[node name="Lighting" type="Node3D" parent="."]
+script = ExtResource("4_lighting")
+
+[node name="Elevator" type="Node3D" parent="."]
+script = ExtResource("5_elevator")

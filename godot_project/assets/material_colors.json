@@ -1,0 +1,552 @@
+{
+ "Toon_Beige": [
+  0.9,
+  0.86,
+  0.74
+ ],
+ "Toon_BeigeDark": [
+  0.72,
+  0.68,
+  0.58
+ ],
+ "Toon_Blue": [
+  0.28,
+  0.45,
+  0.85
+ ],
+ "Toon_Bread": [
+  0.86,
+  0.62,
+  0.34
+ ],
+ "Toon_Brunost": [
+  0.74,
+  0.46,
+  0.22
+ ],
+ "Toon_CabBlack": [
+  0.1,
+  0.1,
+  0.12
+ ],
+ "Toon_CanBlue": [
+  0.55,
+  0.8,
+  0.95
+ ],
+ "Toon_CanGold": [
+  0.98,
+  0.78,
+  0.25
+ ],
+ "Toon_CanGreen": [
+  0.18,
+  0.55,
+  0.3
+ ],
+ "Toon_CanRed": [
+  0.85,
+  0.28,
+  0.28
+ ],
+ "Toon_CanSilver": [
+  0.8,
+  0.84,
+  0.9
+ ],
+ "Toon_CanTextBlue": [
+  0.15,
+  0.35,
+  0.65
+ ],
+ "Toon_CanTextDark": [
+  0.15,
+  0.22,
+  0.2
+ ],
+ "Toon_CanWhite": [
+  0.97,
+  0.97,
+  0.98
+ ],
+ "Toon_CeilPlate": [
+  0.3,
+  0.33,
+  0.38
+ ],
+ "Toon_CeilSlat": [
+  0.6,
+  0.65,
+  0.7
+ ],
+ "Toon_CeilSpot": [
+  1.0,
+  0.97,
+  0.85
+ ],
+ "Toon_CeilWhite": [
+  0.92,
+  0.93,
+  0.96
+ ],
+ "Toon_ChairBlue": [
+  0.42,
+  0.6,
+  0.8
+ ],
+ "Toon_Concrete": [
+  0.62,
+  0.63,
+  0.66
+ ],
+ "Toon_Cork": [
+  0.78,
+  0.58,
+  0.36
+ ],
+ "Toon_CounterTop": [
+  0.8,
+  0.8,
+  0.83
+ ],
+ "Toon_Crust": [
+  0.58,
+  0.36,
+  0.18
+ ],
+ "Toon_CupBrown": [
+  0.62,
+  0.4,
+  0.26
+ ],
+ "Toon_CupLid": [
+  0.3,
+  0.3,
+  0.38
+ ],
+ "Toon_CupText": [
+  0.98,
+  0.95,
+  0.88
+ ],
+ "Toon_Dark": [
+  0.2,
+  0.22,
+  0.3
+ ],
+ "Toon_DarkFrame": [
+  0.17,
+  0.17,
+  0.21
+ ],
+ "Toon_Door": [
+  0.78,
+  0.52,
+  0.3
+ ],
+ "Toon_DoorFrame": [
+  0.3,
+  0.27,
+  0.36
+ ],
+ "Toon_DoorGlass": [
+  0.16,
+  0.18,
+  0.22
+ ],
+ "Toon_DoorHandle": [
+  0.8,
+  0.82,
+  0.88
+ ],
+ "Toon_DoorWood": [
+  0.82,
+  0.66,
+  0.42
+ ],
+ "Toon_Duct": [
+  0.7,
+  0.74,
+  0.78
+ ],
+ "Toon_ExitGreen": [
+  0.1,
+  0.62,
+  0.32
+ ],
+ "Toon_FloorHall": [
+  0.8,
+  0.82,
+  0.9
+ ],
+ "Toon_FloorLino": [
+  0.68,
+  0.68,
+  0.7
+ ],
+ "Toon_FloorPolished": [
+  0.36,
+  0.38,
+  0.43
+ ],
+ "Toon_Fridge": [
+  0.93,
+  0.94,
+  0.96
+ ],
+ "Toon_Frost": [
+  0.93,
+  0.95,
+  0.97
+ ],
+ "Toon_Glass": [
+  0.65,
+  0.85,
+  0.95
+ ],
+ "Toon_GlassDot": [
+  0.95,
+  0.95,
+  0.95
+ ],
+ "Toon_GlassFrame": [
+  0.22,
+  0.25,
+  0.32
+ ],
+ "Toon_Green": [
+  0.3,
+  0.68,
+  0.4
+ ],
+ "Toon_Ink": [
+  0.35,
+  0.4,
+  0.65
+ ],
+ "Toon_Kettle": [
+  0.75,
+  0.78,
+  0.82
+ ],
+ "Toon_Key": [
+  0.96,
+  0.94,
+  0.88
+ ],
+ "Toon_KitchenBlue": [
+  0.12,
+  0.2,
+  0.42
+ ],
+ "Toon_LabelInk": [
+  0.15,
+  0.17,
+  0.3
+ ],
+ "Toon_LaptopLid": [
+  0.55,
+  0.6,
+  0.7
+ ],
+ "Toon_Leather": [
+  0.13,
+  0.13,
+  0.16
+ ],
+ "Toon_LiftBtn": [
+  1.0,
+  0.8,
+  0.25
+ ],
+ "Toon_LiftCeil": [
+  0.8,
+  0.52,
+  0.28
+ ],
+ "Toon_LiftControl": [
+  0.14,
+  0.15,
+  0.19
+ ],
+ "Toon_LiftFloor": [
+  0.28,
+  0.28,
+  0.3
+ ],
+ "Toon_LiftLED": [
+  0.95,
+  0.12,
+  0.12
+ ],
+ "Toon_LiftLight": [
+  1.0,
+  0.96,
+  0.8
+ ],
+ "Toon_LiftPanel": [
+  0.33,
+  0.38,
+  0.35
+ ],
+ "Toon_LiftRail": [
+  0.92,
+  0.62,
+  0.3
+ ],
+ "Toon_LiftSteel": [
+  0.74,
+  0.74,
+  0.76
+ ],
+ "Toon_LiftVent": [
+  0.55,
+  0.57,
+  0.6
+ ],
+ "Toon_LiftWallFlat": [
+  0.6,
+  0.61,
+  0.64
+ ],
+ "Toon_LiftWood": [
+  0.9,
+  0.6,
+  0.32
+ ],
+ "Toon_LowerChair": [
+  0.45,
+  0.5,
+  0.75
+ ],
+ "Toon_LowerDesk": [
+  0.7,
+  0.55,
+  0.4
+ ],
+ "Toon_LowerFloor": [
+  0.52,
+  0.56,
+  0.68
+ ],
+ "Toon_Metal": [
+  0.66,
+  0.72,
+  0.8
+ ],
+ "Toon_OfficeChairGrey": [
+  0.28,
+  0.32,
+  0.38
+ ],
+ "Toon_OnlineBlue": [
+  0.1,
+  0.17,
+  0.4
+ ],
+ "Toon_Orange": [
+  0.98,
+  0.58,
+  0.2
+ ],
+ "Toon_Outline": [
+  0.05,
+  0.04,
+  0.09
+ ],
+ "Toon_Paper": [
+  0.98,
+  0.97,
+  0.93
+ ],
+ "Toon_PaperW": [
+  0.95,
+  0.95,
+  0.92
+ ],
+ "Toon_PartWood": [
+  0.86,
+  0.66,
+  0.38
+ ],
+ "Toon_Pendant": [
+  0.86,
+  0.88,
+  0.92
+ ],
+ "Toon_PendantLight": [
+  1.0,
+  0.95,
+  0.8
+ ],
+ "Toon_Pink": [
+  1.0,
+  0.55,
+  0.65
+ ],
+ "Toon_PlantDark": [
+  0.14,
+  0.38,
+  0.22
+ ],
+ "Toon_PlantGreen": [
+  0.2,
+  0.5,
+  0.28
+ ],
+ "Toon_PlantTrunk": [
+  0.45,
+  0.33,
+  0.22
+ ],
+ "Toon_PosterB": [
+  0.3,
+  0.45,
+  0.85
+ ],
+ "Toon_PosterG": [
+  0.35,
+  0.7,
+  0.45
+ ],
+ "Toon_PosterR": [
+  0.88,
+  0.3,
+  0.28
+ ],
+ "Toon_PosterY": [
+  0.98,
+  0.82,
+  0.28
+ ],
+ "Toon_PotGrey": [
+  0.3,
+  0.32,
+  0.36
+ ],
+ "Toon_Printer": [
+  0.82,
+  0.84,
+  0.9
+ ],
+ "Toon_PrinterTop": [
+  0.3,
+  0.32,
+  0.4
+ ],
+ "Toon_Purple": [
+  0.58,
+  0.4,
+  0.8
+ ],
+ "Toon_RailBracket": [
+  0.22,
+  0.24,
+  0.3
+ ],
+ "Toon_RailWood": [
+  0.78,
+  0.55,
+  0.3
+ ],
+ "Toon_Red": [
+  0.88,
+  0.25,
+  0.25
+ ],
+ "Toon_Screen": [
+  0.45,
+  0.85,
+  0.9
+ ],
+ "Toon_SignBar": [
+  0.88,
+  0.55,
+  0.3
+ ],
+ "Toon_SignGrey": [
+  0.2,
+  0.22,
+  0.27
+ ],
+ "Toon_SignWhite": [
+  0.95,
+  0.95,
+  0.95
+ ],
+ "Toon_Snack": [
+  0.95,
+  0.75,
+  0.25
+ ],
+ "Toon_SofaDark": [
+  0.2,
+  0.22,
+  0.28
+ ],
+ "Toon_Tab": [
+  0.8,
+  0.84,
+  0.9
+ ],
+ "Toon_TableLight": [
+  0.9,
+  0.76,
+  0.54
+ ],
+ "Toon_TapeRed": [
+  0.88,
+  0.25,
+  0.25
+ ],
+ "Toon_Teal": [
+  0.2,
+  0.62,
+  0.62
+ ],
+ "Toon_TVGame": [
+  0.4,
+  0.65,
+  0.92
+ ],
+ "Toon_Wall": [
+  0.42,
+  0.46,
+  0.62
+ ],
+ "Toon_WaxFold": [
+  0.85,
+  0.82,
+  0.7
+ ],
+ "Toon_WaxPaper": [
+  0.93,
+  0.9,
+  0.8
+ ],
+ "Toon_WhiteBand": [
+  0.95,
+  0.95,
+  0.95
+ ],
+ "Toon_Wood": [
+  0.86,
+  0.6,
+  0.34
+ ],
+ "Toon_WoodDark": [
+  0.68,
+  0.44,
+  0.24
+ ],
+ "Toon_WoodSlat": [
+  0.88,
+  0.74,
+  0.5
+ ],
+ "Toon_Yellow": [
+  1.0,
+  0.82,
+  0.25
+ ]
+}
