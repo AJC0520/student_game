@@ -19,6 +19,8 @@ extends CharacterBody3D
 
 ## Set true to freeze walking (cutscenes etc.); looking around still works.
 var locked: bool = false
+## Set true to also freeze mouse look (minigames); face_point() can still turn the camera.
+var look_locked: bool = false
 
 var _yaw: float = 0.0
 var _pitch: float = deg_to_rad(-8.0)
@@ -37,6 +39,7 @@ const _DEFAULT_ACTIONS := {
 	"sprint": [KEY_SHIFT],
 	"jump": [KEY_SPACE],
 	"toggle_view": [KEY_V],
+	"interact": [KEY_E],
 }
 
 
@@ -53,6 +56,8 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		if look_locked:
+			return
 		var motion := event as InputEventMouseMotion
 		_yaw = wrapf(_yaw - motion.relative.x * mouse_sensitivity, -PI, PI)
 		_pitch = clampf(_pitch - motion.relative.y * mouse_sensitivity, _min_pitch(), _max_pitch())
@@ -92,6 +97,21 @@ func _physics_process(delta: float) -> void:
 
 func _apply_camera() -> void:
 	_cam_pivot.rotation = Vector3(_pitch, _yaw, 0.0)
+
+
+## Smoothly turns the camera (and the model, in first person) towards a world point. Await the returned tween to wait for it.
+func face_point(point: Vector3, duration: float = 0.8) -> Tween:
+	var d := point - _cam_pivot.global_position
+	var yaw_to := atan2(-d.x, -d.z)
+	var pitch_to := clampf(atan2(d.y, Vector2(d.x, d.z).length()), _min_pitch(), _max_pitch())
+	var yaw_from := _yaw
+	var pitch_from := _pitch
+	var tw := create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tw.tween_method(func(k: float) -> void:
+		_yaw = lerp_angle(yaw_from, yaw_to, k)
+		_pitch = lerpf(pitch_from, pitch_to, k)
+		_apply_camera(), 0.0, 1.0, duration)
+	return tw
 
 
 ## Switches between the eye-height camera (model hidden) and the orbiting camera behind the character.

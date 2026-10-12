@@ -12,6 +12,9 @@ const MC := preload("res://scripts/material_colors.gd")
 @export var arm_swing: float = 0.6
 @export var lean: float = 0.12                # forward lean of the torso at full run speed
 
+## Extra forward lift of the right arm in radians (0 = hanging); used by NPC gestures such as swiping a card.
+var arm_r_raise: float = 0.0
+
 var _phase: float = 0.0
 var _amount: float = 0.0   # smoothed 0..1 "how much are we moving"
 var _idle_t: float = 0.0
@@ -76,6 +79,7 @@ func update_pose(delta: float, speed: float, run_speed: float, on_floor: bool, v
 	_arm_r.rotation.x = arm_r
 	_arm_l.rotation.x = arm_l
 	_arm_r.rotation.z = spread
+	_arm_r.rotation.x += arm_r_raise
 	_arm_l.rotation.z = -spread
 
 	# --- body ---

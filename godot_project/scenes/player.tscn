@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene format=3 uid="uid://bxccbj8p4vqju"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_player"]
-[ext_resource type="PackedScene" path="res://assets/player.glb" id="2_model"]
-[ext_resource type="Script" path="res://scripts/player_model.gd" id="3_modelgd"]
+[ext_resource type="Script" uid="uid://csecuilymdl2y" path="res://scripts/player.gd" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://p1x25a4vrx4r" path="res://assets/player.glb" id="2_model"]
+[ext_resource type="Script" uid="uid://dnxi6wfh7m0ww" path="res://scripts/player_model.gd" id="3_modelgd"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.25
@@ -11,26 +11,25 @@ height = 1.8
 [sub_resource type="SphereShape3D" id="SphereShape3D_cam"]
 radius = 0.2
 
-[node name="Player" type="CharacterBody3D" groups=["player"]]
+[node name="Player" type="CharacterBody3D" unique_id=862622597 groups=["player"]]
 collision_layer = 2
-collision_mask = 1
 script = ExtResource("1_player")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-position = Vector3(0, 0.9, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=632951256]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_body")
 
-[node name="Model" parent="." instance=ExtResource("2_model")]
+[node name="Model" parent="." unique_id=878147613 instance=ExtResource("2_model")]
 script = ExtResource("3_modelgd")
 
-[node name="CameraPivot" type="Node3D" parent="."]
-position = Vector3(0, 1.55, 0)
+[node name="CameraPivot" type="Node3D" parent="." unique_id=1311781486]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55, 0)
 
-[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot" unique_id=806244991]
 shape = SubResource("SphereShape3D_cam")
 spring_length = 3.4
 margin = 0.1
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D" unique_id=772416890]
 current = true
 fov = 70.0
