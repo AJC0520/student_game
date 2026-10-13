@@ -35,8 +35,8 @@ walls_m = [
      (-0.9, -9.5), (4, -9.5), (4, SY), (ARC_CX, SY)] + ARC,
     # A4-138 / Online / A4-145 / A4-147 partitions (north-south)
     [(-23, 0), (-23, N)],
-    # A4-145 / A4-147: walls only (no room behind them), doors are added on the corridor face
-    [(-9.7, 0), (-9.7, N)], [(-3.7, 0), (-3.7, N)], [(-9.7, 0), (-3.7, 0)],
+    # A4-145 / A4-147: group rooms; the corridor front is a birch + glass wall (below), separated by a partition at x = -6.7
+    [(-9.7, 0.1), (-9.7, N)], [(-3.7, 0.1), (-3.7, N)], [(-6.7, 0.1), (-6.7, N)],   # start behind the birch posts
     # south walls of the room row (doorways left open)
     [(-29, 0), (-26.5, 0)], [(-24.5, 0), (-23, 0)],
     [(-21, 0), (-9.7, 0)],
@@ -66,7 +66,7 @@ for (x0, y0), (x1, y1) in (((-23.5, -5), (-3, -5)), ((-3, -5), (-3, -2.5)), ((-2
 walls.finish("Walls", (0, 0, 0), outline=0.03)
 
 # ---- floor slab (rectangles; the shaft behind the glass is a hole) ----
-rects = [(-29, 0, -9.7, N), (-3.7, 0, -0.9, N), (-23.5, -2.5, -0.9, 0), (-0.9, -5, 6.5, 3.5), (-3, -5, -0.9, -2.5)]
+rects = [(-29, 0, -9.7, N), (-9.7, 0, -3.7, N), (-3.7, 0, -0.9, N), (-23.5, -2.5, -0.9, 0), (-0.9, -5, 6.5, 3.5), (-3, -5, -0.9, -2.5)]
 fl = B()
 for x0, y0, x1, y1 in rects:
     fl.box((x1 - x0, y1 - y0, 0.1), ((x0 + x1) / 2, (y0 + y1) / 2, -0.05), ("FloorPolished", (0.56, 0.58, 0.63)))
@@ -88,13 +88,13 @@ g = B()
 GLASS = ("Glass", (0.65, 0.85, 0.95))
 FRAME = ("GlassFrame", (0.22, 0.25, 0.32))
 x0, x1 = -23.5, -3.0
-g.box((x1 - x0, 0.03, 2.9), ((x0 + x1) / 2, GY, 1.5), GLASS)
-g.box((x1 - x0 + 0.1, 0.10, 0.10), ((x0 + x1) / 2, GY, 2.95), FRAME)
+g.box((x1 - x0, 0.03, 3.4), ((x0 + x1) / 2, GY, 1.75), GLASS)          # corridor glass runs floor to the raised ceiling (z = 3.5)
+g.box((x1 - x0 + 0.1, 0.10, 0.10), ((x0 + x1) / 2, GY, 3.45), FRAME)
 g.box((x1 - x0 + 0.1, 0.10, 0.10), ((x0 + x1) / 2, GY, 0.05), FRAME)
 n = 7
 for k in range(n + 1):
     x = x0 + (x1 - x0) * k / n
-    g.box((0.10, 0.10, 3.0), (x, GY, 1.5), FRAME)
+    g.box((0.10, 0.10, 3.5), (x, GY, 1.75), FRAME)
 # west window (x = -31, y -8..0): same glass, floor to ceiling
 WX, WY0, WY1 = -31.0, -8.0, 0.0
 g.box((0.03, WY1 - WY0, 2.9), (WX, (WY0 + WY1) / 2, 1.5), GLASS)
@@ -193,18 +193,85 @@ for xx in (-19.0, -13.0, -8.0):
 lo.finish("Lower_Level", (0, 0, 0), outline=0.012)
 
 
-# ---- doors for A4-145 / A4-147 (closed, on the corridor face of the solid block) ----
-DOOR = ("Door", (0.78, 0.52, 0.30))
-DFRAME = ("DoorFrame", (0.30, 0.27, 0.36))
-for room, dxc in (("A4-145", -8.0), ("A4-147", -5.2)):
-    d = B()
-    d.box((1.3, 0.10, 0.10), (dxc, -0.05, 2.15), DFRAME)
-    d.box((0.10, 0.10, 2.15), (dxc - 0.6, -0.05, 1.075), DFRAME)
-    d.box((0.10, 0.10, 2.15), (dxc + 0.6, -0.05, 1.075), DFRAME)
-    d.box((1.1, 0.06, 2.05), (dxc, -0.04, 1.025), DOOR)
-    d.box((0.05, 0.08, 0.05), (dxc + 0.4, -0.10, 1.0), ("DoorHandle", (0.80, 0.82, 0.88)))
-    dob = d.finish("Door_" + room, (0, -0.1, 0), outline=0.01)
-    text_on(dob, room, (dxc, -0.14, 2.5), (90, 0, 0), 0.22, ("LabelInk", (0.15, 0.17, 0.30)), extrude=0.005, name="Sign_" + room)
+# ---- group rooms A4-145 / A4-147: birch-framed glass fronts onto the corridor (reference photo) + real interiors ----
+BIRCH = ("PartWood", (0.86, 0.66, 0.38))
+BIRCHD = ("DoorWood", (0.82, 0.66, 0.42))
+FROSTG = ("Frost", (0.93, 0.95, 0.97))
+TWOOD = ("TableLight", (0.90, 0.76, 0.54))
+GR_ROOMS = (("A4-145", -9.7), ("A4-147", -6.7))      # (name, west edge x); each room is 3.0 m wide, y 0..N behind the front
+gf = B()
+for room, xw in GR_ROOMS:
+    for off in (0.0, 0.46, 1.58, 3.0):                                  # birch posts
+        gf.box((0.12, 0.12, 2.55), (xw + off, 0.0, 1.275), BIRCH)
+    gf.box((3.12, 0.12, 0.12), (xw + 1.5, 0.0, 2.49), BIRCH)            # head rail over strip, door and window
+    gf.box((0.34, 0.03, 2.33), (xw + 0.23, 0.0, 1.265), GLASS)           # narrow glass strip beside the door
+    gf.box((0.34, 0.12, 0.10), (xw + 0.23, 0.0, 0.05), BIRCH)
+    gf.box((1.30, 0.03, 2.33), (xw + 2.29, 0.0, 1.265), GLASS)           # wide glass panel
+    gf.box((1.30, 0.12, 0.10), (xw + 2.29, 0.0, 0.05), BIRCH)
+    gf.box((1.30, 0.035, 0.42), (xw + 2.29, 0.0, 1.0), FROSTG)          # frosted stripes on the wide panel
+    for zz in (1.30, 1.38):
+        gf.box((1.30, 0.035, 0.025), (xw + 2.29, 0.0, zz), FROSTG)
+    gf.box((0.34, 0.035, 0.42), (xw + 0.23, 0.0, 1.0), FROSTG)
+    gf.box((0.08, 0.012, 0.15), (xw + 1.58, -0.066, 1.35), ("CabBlack", (0.10, 0.10, 0.12)))   # small black plate by the handle
+    gf.box((0.05, 0.013, 0.02), (xw + 1.58, -0.067, 1.40), ("SignWhite", (0.95, 0.95, 0.95)))
+gr_ob = gf.finish("GroupRoom_Fronts", (0, 0, 0), outline=0.012)
+for room, xw in GR_ROOMS:
+    # (room name labels over the fronts removed on request)
+    d = B()     # door leaf, origin = hinge (west edge, x = xw + 0.53); swings out into the corridor
+    d.box((0.98, 0.045, 2.43), (0.49, 0.0, 1.215), BIRCHD)
+    for sy in (-1, 1):
+        d.box((0.12, 0.05, 0.03), (0.86, sy * 0.045, 1.0), ("DoorHandle", (0.80, 0.82, 0.88)))
+    d.finish("Door_" + room, (xw + 0.53, 0.0, 0), outline=0.01)
+# interiors: pale ceiling over both rooms, a table with four chairs and a whiteboard in each
+grc = B()
+grc.box((6.0, 4.5, 0.03), (-6.7, 2.25, 2.99), ("CeilWhite", (0.92, 0.93, 0.96)))
+grc.finish("Ceil_GroupRooms", (0, 0, 0), outline=0.0)
+gi = B()
+GRCH = ("OfficeChairGrey", (0.28, 0.32, 0.38))
+for room, xw in GR_ROOMS:
+    tx_, ty_ = xw + 1.5, 2.7
+    gi.box((1.8, 0.9, 0.05), (tx_, ty_, 0.75), TWOOD)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            gi.box((0.06, 0.06, 0.72), (tx_ + sx * 0.84, ty_ + sy * 0.39, 0.36), TWOOD)
+    for cxo in (-0.5, 0.5):
+        for sy in (-1, 1):
+            cyy = ty_ + sy * 0.78
+            gi.box((0.42, 0.42, 0.05), (tx_ + cxo, cyy, 0.47), GRCH)
+            gi.box((0.42, 0.05, 0.45), (tx_ + cxo, cyy + sy * 0.22, 0.75), GRCH)
+            gi.cyl(0.03, 0.03, 0.40, (tx_ + cxo, cyy, 0.25), ("Metal", (0.66, 0.72, 0.80)), 6)
+            gi.box((0.5, 0.06, 0.03), (tx_ + cxo, cyy, 0.03), ("Metal", (0.66, 0.72, 0.80)))
+            gi.box((0.06, 0.5, 0.03), (tx_ + cxo, cyy, 0.03), ("Metal", (0.66, 0.72, 0.80)))
+    gi.box((1.9, 0.03, 1.0), (tx_, N - 0.12, 1.55), ("SignWhite", (0.95, 0.95, 0.95)))     # whiteboard on the north wall
+    gi.box((2.0, 0.04, 0.05), (tx_, N - 0.12, 1.03), ("Metal", (0.66, 0.72, 0.80)))
+gi.finish("GroupRoom_Furn", (0, 0, 0), outline=0.01)
+
+# ---- corridor ceiling: light wooden slats over a dark backing, recessed downlights and speaker discs (reference photo) ----
+cc = B()
+SLATW = ("SlatWood", (0.80, 0.76, 0.68))
+cc.box((22.3, 2.45, 0.05), (-12.15, -1.25, 3.475), ("CeilPlate", (0.30, 0.33, 0.38)))     # dark backing
+for k in range(24):
+    cc.box((22.3, 0.05, 0.07), (-12.15, -2.42 + k * 0.1, 3.42), SLATW)                   # slats along the corridor
+for k, xl in enumerate((-21.5, -18.5, -15.5, -12.5, -9.5, -6.5)):
+    yl = -0.8 if k % 2 == 0 else -1.7
+    cc.box((0.24, 0.24, 0.05), (xl, yl, 3.4), ("Duct", (0.70, 0.74, 0.78)))               # recessed downlight housing
+    cc.cyl(0.08, 0.08, 0.012, (xl, yl, 3.372), ("CeilSpot", (1.0, 0.97, 0.85)), 10)
+for xs in (-20.0, -14.0, -8.0):
+    cc.cyl(0.075, 0.075, 0.02, (xs, -1.25, 3.38), ("Metal", (0.66, 0.72, 0.80)), 10)       # round speaker discs
+for bx in (-3.0, -13.5):
+    cc.box((0.55, 2.45, 0.5), (bx, -1.25, 3.22), ("Concrete", (0.62, 0.63, 0.66)))     # hanging concrete beams (as in the photo)
+cc.finish("Ceil_Corridor", (0, 0, 0), outline=0.0)
+
+# ---- corridor enclosure up to the raised ceiling (z = CH): white plaster band over the fronts and ends ----
+CH = 3.5
+PLASTER = ("Plaster", (0.86, 0.86, 0.82))
+pb = B()
+pb.box((6.0, 0.2, CH - 2.55), (-6.7, 0.0, (2.55 + CH) / 2), PLASTER)                  # above the group-room fronts (frame top 2.55)
+pb.box((13.8, 0.2, CH - 2.55), (-16.6, 0.0, (2.55 + CH) / 2), PLASTER)                # above the Online front and entrance (x -23.5..-9.7), level with the group rooms
+pb.box((2.0, 0.2, 0.15), (-22.0, 0.0, 2.475), PLASTER)                                 # fills the gap over the Online door frame (top at 2.4)
+pb.box((0.2, 2.5, CH - 3.0), (-23.5, -1.25, (3.0 + CH) / 2), PLASTER)                  # west end of the corridor
+pb.box((0.2, 2.5, CH - 3.0), (-0.9, -1.25, (3.0 + CH) / 2), PLASTER)                   # east end, above the lobby glass wall
+pb.finish("Plaster_Band", (0, 0, 0), outline=0.0)
 
 # ---- room labels ----
 labels = {"A4-138": (-26, 2.2), "Online": (-16, 1.2), "A4-024": (-13, -1.25), "A4-025": (-27, -3), "A4-124": (-25.5, -10), "A4-156": (-9, -10),
