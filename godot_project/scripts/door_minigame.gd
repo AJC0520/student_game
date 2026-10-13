@@ -18,10 +18,9 @@ const INTERACT_RANGE := 2.4
 
 ## The student's door (first door on the right when you look down the corridor from the lobby) and his route.
 const STUDENT_DOOR := "Door_A4-147*"
-const STUDENT_DOOR_HINGE := Vector3(-5.75, 0.0, 0.14)       # left edge of the leaf; swings open into the corridor
-const STUDENT_DOORWAY := Vector3(-5.2, 1.025, 0.108)         # dark recess shown behind the open door
-const NPC_SPAWN := Vector3(-5.2, 0.0, 0.12)
-const NPC_ABOVE_DOOR := Vector3(-5.2, 0.0, 1.12)
+const STUDENT_DOOR_HINGE := Vector3(-6.17, 0.0, 0.0)        # west edge of the leaf (the glb origin); swings open into the corridor
+const NPC_SPAWN := Vector3(-5.67, 0.0, -0.7)               # inside the group room, behind the door
+const NPC_ABOVE_DOOR := Vector3(-5.67, 0.0, 1.12)
 const NPC_AT_READER := Vector3(-1.42, 0.0, 1.12)           # stands in the corridor, right arm reaching the reader
 const NPC_SPEED := 2.3
 
@@ -37,7 +36,6 @@ var _player: Node3D
 var _camera: Camera3D
 var _entrance: Node3D
 var _student_hinge: Node3D
-var _doorway: MeshInstance3D
 var _npc: Node3D
 var _npc_walking: bool = false
 
@@ -89,7 +87,8 @@ func _process(delta: float) -> void:
 	if _player and _state == State.IDLE:
 		var d := _player.global_position - READER_POS
 		d.y = 0.0
-		near = d.length() < INTERACT_RANGE
+		# only from the lobby side: the reader sits in the glass wall at x = -0.9
+		near = d.length() < INTERACT_RANGE and _player.global_position.x > -0.85
 	_prompt_alpha = move_toward(_prompt_alpha, 1.0 if near else 0.0, delta * 4.0)
 	_prompt.modulate.a = _prompt_alpha
 	_prompt.position = PROMPT_POS + Vector3(0.0, sin(_t * 3.0) * 0.015, 0.0)
@@ -140,9 +139,9 @@ func _run_sequence() -> void:
 
 
 func _student_sequence() -> void:
-	# his door swings open into the corridor, he steps out of the dark doorway
-	_doorway.visible = true
-	await _swing(_student_hinge, deg_to_rad(-88.0), 0.9)
+	# his door swings open into the corridor, he steps out of the group room
+	_swing(_student_hinge, deg_to_rad(-88.0), 0.9)
+	await get_tree().create_timer(0.55).timeout
 	_spawn_npc()
 	await _walk_to(NPC_ABOVE_DOOR)
 	await _walk_to(NPC_AT_READER)
@@ -179,7 +178,6 @@ func _student_sequence() -> void:
 	_npc.queue_free()
 	_npc = null
 	await _swing(_student_hinge, 0.0, 0.8)
-	_doorway.visible = false
 
 
 # ---------------------------------------------------------------- the student
@@ -233,18 +231,6 @@ func _make_student_hinge(door: Node3D) -> void:
 	_student_hinge.global_position = STUDENT_DOOR_HINGE
 	door.reparent(_student_hinge, true)
 
-	# behind the leaf: dark room interior so he doesn't step out of a bare wall
-	_doorway = MeshInstance3D.new()
-	var quad := QuadMesh.new()
-	quad.size = Vector2(1.1, 2.05)
-	_doorway.mesh = quad
-	var m := StandardMaterial3D.new()
-	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	m.albedo_color = Color(0.05, 0.05, 0.07)
-	_doorway.material_override = m
-	_doorway.position = STUDENT_DOORWAY
-	_doorway.visible = false
-	add_child(_doorway)
 
 
 func _make_reader_fx() -> void:
