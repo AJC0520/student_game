@@ -1,14 +1,19 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene format=3 uid="uid://ddvn0nygyyghs"]
 
-[ext_resource type="PackedScene" path="res://assets/a4_blockout.glb" id="1_level"]
-[ext_resource type="Script" path="res://scripts/level.gd" id="2_levelgd"]
-[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="3_player"]
-[ext_resource type="Script" path="res://scripts/lighting.gd" id="4_lighting"]
-[ext_resource type="Script" path="res://scripts/elevator.gd" id="5_elevator"]
-[ext_resource type="Script" path="res://scripts/tv_screen.gd" id="6_tv"]
-[ext_resource type="PackedScene" path="res://assets/npc_sofa.glb" id="7_npc"]
-[ext_resource type="Script" path="res://scripts/sofa_guy.gd" id="8_static"]
-[ext_resource type="Script" path="res://scripts/door_minigame.gd" id="9_door"]
+[ext_resource type="PackedScene" uid="uid://dhf6g72e4n0v8" path="res://assets/a4_blockout.glb" id="1_level"]
+[ext_resource type="Script" uid="uid://drbv0xfmbrsfr" path="res://scripts/level.gd" id="2_levelgd"]
+[ext_resource type="PackedScene" uid="uid://bxccbj8p4vqju" path="res://scenes/player.tscn" id="3_player"]
+[ext_resource type="Script" uid="uid://dgptu0d2kr12j" path="res://scripts/lighting.gd" id="4_lighting"]
+[ext_resource type="Script" uid="uid://7mp32lb6hc37" path="res://scripts/elevator.gd" id="5_elevator"]
+[ext_resource type="Script" uid="uid://dtpce8mgnqk2a" path="res://scripts/tv_screen.gd" id="6_tv"]
+[ext_resource type="PackedScene" uid="uid://cpfqs5exsbuay" path="res://assets/npc_sofa.glb" id="7_npc"]
+[ext_resource type="Script" uid="uid://lwyh20qjl5ky" path="res://scripts/sofa_guy.gd" id="8_static"]
+[ext_resource type="Script" uid="uid://o2et3l40ggkq" path="res://scripts/door_minigame.gd" id="9_door"]
+[ext_resource type="Script" uid="uid://d21y33tx84dmo" path="res://scripts/game_start.gd" id="10_start"]
+[ext_resource type="PackedScene" uid="uid://bbiyvut5hcpyr" path="res://assets/npc_worker.glb" id="11_worker"]
+[ext_resource type="Script" uid="uid://hfetrcprgp1w" path="res://scripts/desk_worker.gd" id="12_workergd"]
+[ext_resource type="Script" uid="uid://x5bi8qxg2ljg" path="res://scripts/sofa_race.gd" id="13_sofarace"]
+[ext_resource type="Script" uid="uid://le0yhyhea74w" path="res://scripts/inventory.gd" id="14_inventory"]
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 1
@@ -16,38 +21,48 @@ background_color = Color(0.93, 0.95, 1, 1)
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_energy = 0.62
-tonemap_mode = 0
 
-[node name="Main" type="Node3D"]
+[node name="Main" type="Node3D" unique_id=2035830463]
 
-[node name="Level" parent="." instance=ExtResource("1_level")]
+[node name="Level" parent="." unique_id=2115749214 instance=ExtResource("1_level")]
 script = ExtResource("2_levelgd")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=529744425]
 environment = SubResource("Environment_main")
 
-[node name="Sun" type="DirectionalLight3D" parent="."]
-rotation = Vector3(-0.8727, -0.5236, 0)
-position = Vector3(0, 10, 0)
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1168633295]
+transform = Transform3D(0.8660248, 0.3830344, -0.32138094, 0, 0.6427605, 0.76606715, 0.5000011, -0.66343313, 0.5566465, 0, 10, 0)
 shadow_enabled = true
-directional_shadow_max_distance = 60.0
+directional_shadow_mode = 1
+directional_shadow_max_distance = 45.0
 
-[node name="Player" parent="." instance=ExtResource("3_player")]
-position = Vector3(0.75, 0.05, -1.8)
-rotation = Vector3(0, 3.14159, 0)
+[node name="GameStart" type="Node" parent="." unique_id=554837894]
+script = ExtResource("10_start")
 
-[node name="Lighting" type="Node3D" parent="."]
+[node name="Player" parent="." unique_id=1593445357 instance=ExtResource("3_player")]
+transform = Transform3D(-1, 0, 2.5351817e-06, 0, 1, 0, -2.5351817e-06, 0, -1, 0.75, 0.05, -1.8)
+
+[node name="Lighting" type="Node3D" parent="." unique_id=249378618]
 script = ExtResource("4_lighting")
 
-[node name="Elevator" type="Node3D" parent="."]
+[node name="Elevator" type="Node3D" parent="." unique_id=1976476856]
 script = ExtResource("5_elevator")
 play_intro = true
 
-[node name="TVScreen" type="Node3D" parent="."]
+[node name="TVScreen" type="Node3D" parent="." unique_id=1626149118]
 script = ExtResource("6_tv")
 
-[node name="SofaGuy" parent="." instance=ExtResource("7_npc")]
+[node name="SofaGuy" parent="." unique_id=1029615026 instance=ExtResource("7_npc")]
 script = ExtResource("8_static")
 
-[node name="AccessDoor" type="Node3D" parent="."]
+[node name="AccessDoor" type="Node3D" parent="." unique_id=510090171]
 script = ExtResource("9_door")
+
+[node name="DeskWorker" parent="." unique_id=1872688643 instance=ExtResource("11_worker")]
+script = ExtResource("12_workergd")
+
+[node name="SofaRace" type="CanvasLayer" parent="." unique_id=1464851478]
+script = ExtResource("13_sofarace")
+
+[node name="Inventory" type="CanvasLayer" parent="." unique_id=692777024]
+script = ExtResource("14_inventory")

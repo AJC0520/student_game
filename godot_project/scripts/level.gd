@@ -6,9 +6,16 @@ const TOON := preload("res://shaders/toon.gdshader")
 const OUTLINE := preload("res://shaders/outline.gdshader")
 const GLASS := preload("res://shaders/glass.gdshader")
 const MC := preload("res://scripts/material_colors.gd")
+const StaticMerge := preload("res://scripts/static_merge.gd")
 
 ## Meshes whose node name starts with one of these get a trimesh StaticBody3D (world layer).
-const COLLIDERS: Array[String] = ["Walls", "Floor", "Glass_Wall", "Railing", "Lift1_Leaf", "Online_Furn", "Ceil_", "Door_A4Entrance", "Door_A4-", "GroupRoom_Fronts", "Plaster_"]
+const COLLIDERS: Array[String] = ["Walls", "Floor", "Glass_Wall", "Railing", "Lift1_Leaf", "Online_Furn", "Ceil_", "Door_A4Entrance", "Door_A4-", "GroupRoom_Fronts", "Plaster_", "BigRoom_"]
+
+## Static geometry is merged at load: one mesh per 14 m cell of the plan and per material (and the outline shells in their own
+## meshes that do not cast shadows), so the ~1000 draw calls of the exported level become ~100. Objects that the game moves
+## (doors, the lift) or that are transparent (glass) keep their own nodes.
+const MERGE_CELL := 14.0
+const MERGE_KEEP_SEPARATE: Array[String] = ["Door_", "Lift"]
 
 var _toon_cache: Dictionary = {}
 var _outline_mat: ShaderMaterial
@@ -21,6 +28,7 @@ func _ready() -> void:
 	_glass_mat = ShaderMaterial.new()
 	_glass_mat.shader = GLASS
 	_skin(self)
+	_merge_static()
 
 
 func _skin(node: Node) -> void:
@@ -43,6 +51,34 @@ func _skin(node: Node) -> void:
 					break
 	for child in node.get_children():
 		_skin(child)
+
+
+func _can_merge(mi: MeshInstance3D) -> bool:
+	if mi.mesh == null or mi.name.contains("Glass"):
+		return false
+	for prefix in MERGE_KEEP_SEPARATE:
+		if mi.name.begins_with(prefix):
+			return false
+	var up := mi.get_parent()
+	while up != null and up != self:                     # children of doors / lift parts move with them
+		for prefix in MERGE_KEEP_SEPARATE:
+			if up.name.begins_with(prefix):
+				return false
+		up = up.get_parent()
+	return true
+
+
+func _collect_meshes(node: Node, out: Array[MeshInstance3D]) -> void:
+	if node is MeshInstance3D and _can_merge(node as MeshInstance3D):
+		out.append(node as MeshInstance3D)
+	for child in node.get_children():
+		_collect_meshes(child, out)
+
+
+func _merge_static() -> void:
+	var sources: Array[MeshInstance3D] = []
+	_collect_meshes(self, sources)
+	StaticMerge.merge(self, sources, MERGE_CELL, true, _outline_mat, false, "Merged")       # originals stay (hidden) for their colliders
 
 
 ## Trimesh collider built from the visible surfaces only. The exported outline shells would double the
