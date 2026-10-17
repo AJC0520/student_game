@@ -2,6 +2,7 @@ extends CharacterBody3D
 ## Walker with a first- or third-person camera (V toggles, `first_person` sets the default).
 ## Move: WASD / arrow keys (input actions move_*, relative to the camera), run: Shift (sprint), jump: Space,
 ## look / orbit camera: mouse, Esc frees the mouse.
+## Bunny hop (bhop_enabled): Source-style movement with momentum, auto-hop (hold Space) and air strafing (turn the mouse while holding A or D in the air to gain speed).
 ## Collision shape, camera rig and character model live in scenes/player.tscn so they can be tuned in the editor.
 
 @export var walk_speed: float = 3.5
@@ -16,6 +17,20 @@ extends CharacterBody3D
 @export var eye_height: float = 1.65
 @export var third_person_height: float = 1.55
 @export var third_person_distance: float = 3.4
+
+@export_group("Bunny hop")
+## Source-style movement: momentum on the ground (friction + acceleration), air strafing and auto-hop.
+## Off = the old instant walk / run movement.
+@export var bhop_enabled: bool = true
+## Hold Space to jump again the moment you land (no ground friction on the landing frame, so no speed is lost).
+@export var auto_hop: bool = false
+@export var ground_accel: float = 14.0
+@export var ground_friction: float = 6.0
+@export var stop_speed: float = 2.0         # friction uses at least this speed, so you come to a stop quickly
+@export var air_accel: float = 10.0
+## Wish speed limit in the air: this is what makes strafe-jumping (A/D + turning the mouse) add speed.
+@export var air_speed_cap: float = 0.8
+@export var max_speed: float = 20.0         # hard cap on horizontal speed (m/s)
 
 ## Set true to freeze walking (cutscenes etc.); looking around still works.
 var locked: bool = false
@@ -77,15 +92,18 @@ func _physics_process(delta: float) -> void:
 		input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var direction := (Basis(Vector3.UP, _yaw) * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
 	var speed := run_speed if Input.is_action_pressed("sprint") else walk_speed
-	velocity.x = direction.x * speed
-	velocity.z = direction.z * speed
-	if not is_on_floor():
-		velocity.y -= _gravity * delta
+	if bhop_enabled:
+		_move_bhop(direction, speed, delta)
 	else:
-		velocity.y = 0.0
-		if not locked and Input.is_action_just_pressed("jump"):
-			velocity.y = jump_velocity
-	move_and_slide()
+		velocity.x = direction.x * speed
+		velocity.z = direction.z * speed
+		if not is_on_floor():
+			velocity.y -= _gravity * delta
+		else:
+			velocity.y = 0.0
+			if not locked and Input.is_action_just_pressed("jump"):
+				velocity.y = jump_velocity
+		move_and_slide()
 
 	if first_person:
 		_model.rotation.y = _yaw
@@ -93,6 +111,53 @@ func _physics_process(delta: float) -> void:
 		var target_yaw := atan2(-direction.x, -direction.z)   # model faces -Z at rotation 0
 		_model.rotation.y = lerp_angle(_model.rotation.y, target_yaw, clampf(delta * turn_speed, 0.0, 1.0))
 	_model.call("update_pose", delta, Vector2(velocity.x, velocity.z).length(), run_speed, is_on_floor(), velocity.y)
+
+
+## Source-style movement: friction + acceleration on the ground, limited-speed acceleration in the air.
+## Jumping on the landing frame skips friction, which is what lets speed build up over a chain of hops.
+func _move_bhop(direction: Vector3, speed: float, delta: float) -> void:
+	var want_jump := not locked and (Input.is_action_pressed("jump") if auto_hop else Input.is_action_just_pressed("jump"))
+	var hv := Vector3(velocity.x, 0.0, velocity.z)
+	var wish_speed := speed if direction != Vector3.ZERO else 0.0
+	if is_on_floor():
+		if want_jump:
+			velocity.y = jump_velocity
+			hv = _air_accelerate(hv, direction, wish_speed, delta)
+		else:
+			velocity.y = 0.0
+			hv = _apply_friction(hv, delta)
+			hv = _accelerate(hv, direction, wish_speed, ground_accel, delta)
+	else:
+		velocity.y -= _gravity * delta
+		hv = _air_accelerate(hv, direction, wish_speed, delta)
+	if hv.length() > max_speed:
+		hv = hv.normalized() * max_speed
+	velocity.x = hv.x
+	velocity.z = hv.z
+	move_and_slide()
+
+
+func _apply_friction(hv: Vector3, delta: float) -> Vector3:
+	var spd := hv.length()
+	if spd < 0.001:
+		return Vector3.ZERO
+	var drop := maxf(spd, stop_speed) * ground_friction * delta
+	return hv * (maxf(spd - drop, 0.0) / spd)
+
+
+func _accelerate(hv: Vector3, direction: Vector3, wish_speed: float, accel: float, delta: float) -> Vector3:
+	var add := wish_speed - hv.dot(direction)
+	if add <= 0.0:
+		return hv
+	return hv + direction * minf(accel * wish_speed * delta, add)
+
+
+func _air_accelerate(hv: Vector3, direction: Vector3, wish_speed: float, delta: float) -> Vector3:
+	var capped := minf(wish_speed, air_speed_cap)
+	var add := capped - hv.dot(direction)
+	if add <= 0.0:
+		return hv
+	return hv + direction * minf(air_accel * wish_speed * delta, add)
 
 
 func _apply_camera() -> void:
