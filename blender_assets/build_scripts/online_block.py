@@ -34,6 +34,18 @@ of.box((1.5, 0.8, 0.05), (cx, cy, 0.41), TWOOD)
 for sx in (-1, 1):
     for sy in (-1, 1):
         of.box((0.06, 0.06, 0.39), (cx + sx * 0.68, cy + sy * 0.34, 0.195), TWOOD)
+# red bell pepper on the coffee table (own object so it can be moved / removed easily)
+PEP_RED = ("PepperRed", (0.88, 0.12, 0.14))
+PEP_GRN = ("PepperGreen", (0.22, 0.55, 0.20))
+pp = B()
+PX, PY, PZ = cx + 0.55, cy + 0.2, 0.435               # on the table top (table top is at z 0.435)
+pp.ico(0.062, (PX, PY, PZ + 0.060), PEP_RED, sub=1, scale=(1.0, 1.0, 0.95))          # the body
+for ang in (0, 120, 240):                                                             # three rounded lobes at the bottom
+    pp.ico(0.034, (PX + 0.036 * math.cos(math.radians(ang)), PY + 0.036 * math.sin(math.radians(ang)), PZ + 0.026), PEP_RED, sub=1)
+pp.cyl(0.026, 0.020, 0.016, (PX, PY, PZ + 0.116), PEP_GRN, 6)                        # green cap
+pp.cyl(0.011, 0.009, 0.040, (PX + 0.004, PY, PZ + 0.142), PEP_GRN, 6, rot=(0, 10, 0))  # stalk
+pp.finish("Prop_Pepper", (0, 0, 0), outline=0.006)
+
 # TV on a black cabinet against the corridor-side partition
 of.box((2.6, 0.5, 0.7), (-12.6, 0.38, 0.35), CABK)
 of.box((1.35, 0.07, 0.80), (-12.6, 0.40, 1.12), CABK)
